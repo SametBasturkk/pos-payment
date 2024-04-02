@@ -1,0 +1,4 @@
+.adminPage {
+  display: flex;
+  flex-direction: row !important;
+}

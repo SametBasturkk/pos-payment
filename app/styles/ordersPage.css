@@ -1,0 +1,19 @@
+.orders-page {
+  padding: 20px;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.orders-table {
+  background-color: #fff;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #f0f2f5;
+}
+
+.ant-select {
+  margin-left: 10px;
+}

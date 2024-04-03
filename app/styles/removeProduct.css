@@ -1,0 +1,45 @@
+/* removeProduct.css */
+
+.remove-product-page {
+  display: flex;
+}
+
+.remove-product-form {
+  width: 400px;
+  padding: 20px;
+}
+
+.remove-product-form .ant-form-item {
+  margin-bottom: 20px;
+}
+
+.remove-product-form .ant-form-item-label {
+  text-align: left;
+}
+
+.remove-product-form .ant-form-item-control {
+  line-height: 2;
+}
+
+.remove-product-form .ant-btn {
+  width: 100%;
+}
+
+/* Placeholder styles for images */
+.remove-product-form .ant-select-selection-placeholder {
+  color: #999;
+}
+
+.remove-product-form .ant-select-selection-selected-value {
+  color: #333;
+}
+
+.remove-product-form .ant-select-selection-item {
+  display: flex;
+  align-items: center;
+}
+
+.remove-product-form .ant-select-selection-item img {
+  width: 30px; /* Adjust the size of the image */
+  margin-right: 10px;
+}

@@ -1,8 +1,14 @@
 "use client";
 import React from "react";
 import { Layout, Menu } from "antd";
-import { DesktopOutlined, PieChartOutlined } from "@ant-design/icons";
-import { ToolOutlined } from "@ant-design/icons";
+import {
+  DesktopOutlined,
+  PieChartOutlined,
+  ToolOutlined,
+  PlusOutlined,
+  MinusOutlined,
+} from "@ant-design/icons";
+import Link from "next/link";
 
 import "./sidebar.css";
 
@@ -24,19 +30,42 @@ export default function Sidebar() {
           </div>
           <div className="profile">
             <div className="profileName">
-              <p className="name">
-                Profile <ToolOutlined />
-              </p>
+              <p className="name">Profile</p>
             </div>
-            <p>Admin</p>
+            <p className="title">Admin</p>
           </div>
         </div>
 
         <Menu.Item key="1" icon={<PieChartOutlined />}>
-          Add Product
+          <Link href="/admin">Dashboard</Link>
         </Menu.Item>
-        <Menu.Item key="3" icon={<DesktopOutlined />}>
-          Orders
+        <Menu.SubMenu key="3" icon={<DesktopOutlined />} title="Menu">
+          <Menu.Item key="3.1" icon={<MinusOutlined />}>
+            <Link href="/admin/menu/create-menu">Create New Menu</Link>
+          </Menu.Item>
+          <Menu.Item key="3.2" icon={<MinusOutlined />}>
+            <Link href="/admin/menu/delete-menu">Delete Menu</Link>
+          </Menu.Item>
+          <Menu.Item key="3.3" icon={<MinusOutlined />}>
+            <Link href="/admin/menu/update-menu">Update Menu</Link>
+          </Menu.Item>
+        </Menu.SubMenu>
+        <Menu.SubMenu key="2" icon={<DesktopOutlined />} title="Products">
+          <Menu.Item key="2.3" icon={<MinusOutlined />}>
+            <Link href="/admin/products/list-product">List Product</Link>
+          </Menu.Item>
+          <Menu.Item key="2.1" icon={<MinusOutlined />}>
+            <Link href="/admin/products/add-product">Add Product</Link>
+          </Menu.Item>
+          <Menu.Item key="2.2" icon={<MinusOutlined />}>
+            <Link href="/admin/products/remove-product">Remove Product</Link>
+          </Menu.Item>
+        </Menu.SubMenu>
+        <Menu.Item key="4" icon={<DesktopOutlined />}>
+          <Link href="/admin/orders">Orders</Link>
+        </Menu.Item>
+        <Menu.Item key="5" icon={<DesktopOutlined />}>
+          <Link href="/admin/reset-password">Profile Options</Link>
         </Menu.Item>
       </Menu>
     </Layout>

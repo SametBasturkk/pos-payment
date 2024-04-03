@@ -1,32 +1,48 @@
+/* sidebar.css */
+
 .sidebar {
-  max-width: 250px;
-  width: auto;
+  background-color: #fff;
 }
 
-.ant-menu {
-  padding: 0vw 3vw 0vw 1vw !important;
+.profileInformation {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .avatar {
-  width: 100px;
-  margin: auto;
-  height: auto;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
 }
 
-.logo {
-  max-width: fit-content;
-  margin: 2vh auto 2vh auto;
-}
-
-.profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.profileName {
+  margin-left: 12px;
 }
 
 .name {
-  font-size: 1.5em;
   font-weight: bold;
-  margin-bottom: 0;
+}
+
+.ant-menu-item {
+  padding-left: 24px;
+}
+
+.ant-menu-submenu-title {
+  padding-left: 24px;
+}
+
+.ant-menu-item-group-title {
+  padding-left: 48px;
+}
+
+.sidebar {
+  max-width: 250px;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: light;
+  margin-left: 12px;
 }

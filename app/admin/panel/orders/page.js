@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Table, Select } from "antd";
-import "../../styles/ordersPage.css";
+import "../../../styles/ordersPage.css";
 
 const { Option } = Select;
 

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
-import "../../styles/resetPassword.css";
+import "../../../styles/resetPassword.css";
 
 function ResetPasswordPage() {
   const [form] = Form.useForm();

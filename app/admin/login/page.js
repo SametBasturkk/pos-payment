@@ -3,7 +3,7 @@ import React from "react";
 import { Button, Checkbox, Form, Input } from "antd";
 const onFinish = (values) => {
   console.log("Success:", values);
-  window.location.href = "/admin";
+  window.location.href = "/admin/panel";
 };
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);

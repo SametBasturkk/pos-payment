@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Table } from "antd";
-import "../../../styles/listProduct.css";
+import "../../../../styles/listProduct.css";
 
 function ListProducts() {
   const columns = [

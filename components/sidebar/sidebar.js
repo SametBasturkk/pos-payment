@@ -41,31 +41,33 @@ export default function Sidebar() {
         </Menu.Item>
         <Menu.SubMenu key="3" icon={<DesktopOutlined />} title="Menu">
           <Menu.Item key="3.1" icon={<MinusOutlined />}>
-            <Link href="/admin/menu/create-menu">Create New Menu</Link>
+            <Link href="/admin/panel/menu/create-menu">Create New Menu</Link>
           </Menu.Item>
           <Menu.Item key="3.2" icon={<MinusOutlined />}>
-            <Link href="/admin/menu/delete-menu">Delete Menu</Link>
+            <Link href="/admin/panel/menu/delete-menu">Delete Menu</Link>
           </Menu.Item>
           <Menu.Item key="3.3" icon={<MinusOutlined />}>
-            <Link href="/admin/menu/update-menu">Update Menu</Link>
+            <Link href="/admin/panel/menu/update-menu">Update Menu</Link>
           </Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu key="2" icon={<DesktopOutlined />} title="Products">
           <Menu.Item key="2.3" icon={<MinusOutlined />}>
-            <Link href="/admin/products/list-product">List Product</Link>
+            <Link href="/admin/panel/products/list-product">List Product</Link>
           </Menu.Item>
           <Menu.Item key="2.1" icon={<MinusOutlined />}>
-            <Link href="/admin/products/add-product">Add Product</Link>
+            <Link href="/admin/panel/products/add-product">Add Product</Link>
           </Menu.Item>
           <Menu.Item key="2.2" icon={<MinusOutlined />}>
-            <Link href="/admin/products/remove-product">Remove Product</Link>
+            <Link href="/admin/panel/products/remove-product">
+              Remove Product
+            </Link>
           </Menu.Item>
         </Menu.SubMenu>
         <Menu.Item key="4" icon={<DesktopOutlined />}>
-          <Link href="/admin/orders">Orders</Link>
+          <Link href="/admin/panel/orders">Orders</Link>
         </Menu.Item>
         <Menu.Item key="5" icon={<DesktopOutlined />}>
-          <Link href="/admin/reset-password">Profile Options</Link>
+          <Link href="/admin/panel/reset-password">Profile Options</Link>
         </Menu.Item>
       </Menu>
     </Layout>

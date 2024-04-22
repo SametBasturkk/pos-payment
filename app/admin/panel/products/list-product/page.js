@@ -62,7 +62,7 @@ function ListProducts() {
         const transformedProducts = apiProducts.map((product) => ({
           id: product.id,
           name: product.name,
-          description: product.category, // Use the 'category' as description
+          description: "test",
           price: product.price,
           uuid: product.uuid,
           image: `http://localhost:3030/product/image/${product.imageUUID}`, // Construct the image URL

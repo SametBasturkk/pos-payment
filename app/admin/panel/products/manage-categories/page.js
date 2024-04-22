@@ -21,7 +21,7 @@ function App() {
         },
       })
       .then((response) => {
-        setCategories(JSON.parse(response.data));
+        setCategories(response.data);
       })
       .catch((error) => {
         message.error("Failed to fetch categories");
@@ -47,15 +47,17 @@ function App() {
   };
 
   // Handle category deletion
-  const handleDelete = (id) => {
+  const handleDelete = (uuid) => {
+    const formData = new FormData();
+    formData.append("uuid", uuid);
     axios
-      .delete(`/category/delete?id=${id}`, {
+      .post(`http://localhost:3030/category/delete`, formData, {
         headers: {
           Authorization: token,
         },
       })
       .then(() => {
-        setCategories(categories.filter((category) => category.id !== id));
+        setCategories(categories.filter((category) => category.uuid !== uuid));
         message.success("Category deleted successfully");
       })
       .catch((error) => {
@@ -70,7 +72,7 @@ function App() {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <Button type="danger" onClick={() => handleDelete(record.id)}>
+        <Button type="danger" onClick={() => handleDelete(record.uuid)}>
           Delete
         </Button>
       ),

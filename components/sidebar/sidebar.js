@@ -64,13 +64,7 @@ export default function Sidebar() {
         </Menu.Item>
         <Menu.SubMenu key="3" icon={<DesktopOutlined />} title="Menu">
           <Menu.Item key="3.1" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/menu/create-menu">Create New Menu</Link>
-          </Menu.Item>
-          <Menu.Item key="3.2" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/menu/delete-menu">Delete Menu</Link>
-          </Menu.Item>
-          <Menu.Item key="3.3" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/menu/update-menu">Update Menu</Link>
+            <Link href="/admin/panel/menu/create-menu">Manage Menu</Link>
           </Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu key="2" icon={<DesktopOutlined />} title="Products">

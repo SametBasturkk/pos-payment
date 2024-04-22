@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Form,
   Input,
@@ -17,6 +17,29 @@ const { Option } = Select;
 
 const AddProduct = () => {
   const [fileList, setFileList] = useState([]);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Function to fetch categories from the server
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3030/category/list",
+          {
+            headers: {
+              Authorization: localStorage.getItem("authToken"),
+            },
+          }
+        );
+        setCategories(response.data);
+      } catch (error) {
+        message.error("Failed to fetch categories: " + error.message);
+      }
+    };
+
+    // Call the function to fetch categories when the component mounts
+    fetchCategories();
+  }, []);
 
   const onFinish = async (values) => {
     try {
@@ -25,15 +48,16 @@ const AddProduct = () => {
         name: values.name,
         price: values.price,
         category: values.category,
-        companyID: values.companyID,
       };
+
+      console.log(values);
 
       // If there is an image to upload, handle the image upload separately
       if (fileList.length > 0) {
         const formData = new FormData();
         formData.append("image", fileList[0].originFileObj);
 
-        // Send the image to the server and get the imageUUID
+        // Send the image to the server and get the image UUID or URL
         const uploadResponse = await axios.post(
           "http://localhost:3030/product/image-upload",
           formData,
@@ -43,7 +67,7 @@ const AddProduct = () => {
             },
           }
         );
-        // Assuming the server returns the image UUID or URL
+        // Assuming the server returns the image UUID
         const imageUUID = uploadResponse.data;
         productData.imageUUID = imageUUID;
       }
@@ -52,6 +76,7 @@ const AddProduct = () => {
       await axios.post("http://localhost:3030/product/create", productData, {
         headers: {
           "Content-Type": "application/json",
+          Authorization: localStorage.getItem("authToken"),
         },
       });
       message.success("Product added successfully!");
@@ -105,18 +130,13 @@ const AddProduct = () => {
           rules={[{ required: true, message: "Please select a category!" }]}
         >
           <Select placeholder="Select a category">
-            <Option value="electronics">Electronics</Option>
-            <Option value="furniture">Furniture</Option>
-            <Option value="clothing">Clothing</Option>
+            {/* Populate the select options with the fetched categories */}
+            {categories.map((category) => (
+              <Option key={category.id} value={category.uuid}>
+                {category.name}
+              </Option>
+            ))}
           </Select>
-        </Form.Item>
-
-        <Form.Item
-          label="Company ID"
-          name="companyID"
-          rules={[{ required: true, message: "Please input the company ID!" }]}
-        >
-          <InputNumber min={1} />
         </Form.Item>
 
         <Form.Item

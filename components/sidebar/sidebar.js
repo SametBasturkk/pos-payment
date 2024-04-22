@@ -1,20 +1,43 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
   PieChartOutlined,
-  ToolOutlined,
-  PlusOutlined,
   MinusOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
+import axios from "axios";
 
 import "./sidebar.css";
 
 export default function Sidebar() {
+  // State to store user data
+  const [user, setUser] = useState({ name: "Loading...", role: "Loading..." });
+
+  useEffect(() => {
+    // Function to fetch user details
+    const fetchUserData = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:3030/admin/user-details",
+          {
+            headers: {
+              Authorization: `${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+        setUser({ name: data.name, role: data.role });
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
-    <Layout width={200} className="site-layout-background sidebar">
+    <Layout className="site-layout-background sidebar" style={{ width: 200 }}>
       <Menu
         mode="inline"
         defaultSelectedKeys={["1"]}
@@ -30,9 +53,9 @@ export default function Sidebar() {
           </div>
           <div className="profile">
             <div className="profileName">
-              <p className="name">Profile</p>
+              <p className="name">{user.name}</p>
             </div>
-            <p className="title">Admin</p>
+            <p className="title">{user.role}</p>
           </div>
         </div>
 
@@ -51,15 +74,17 @@ export default function Sidebar() {
           </Menu.Item>
         </Menu.SubMenu>
         <Menu.SubMenu key="2" icon={<DesktopOutlined />} title="Products">
-          <Menu.Item key="2.3" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/products/list-product">List Product</Link>
-          </Menu.Item>
           <Menu.Item key="2.1" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/products/add-product">Add Product</Link>
+            <Link href="/admin/panel/products/list-product">
+              Manage Products
+            </Link>
           </Menu.Item>
           <Menu.Item key="2.2" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/products/remove-product">
-              Remove Product
+            <Link href="/admin/panel/products/add-product">Add Product</Link>
+          </Menu.Item>
+          <Menu.Item key="2.3" icon={<MinusOutlined />}>
+            <Link href="/admin/panel/products/manage-categories">
+              Manage Categories
             </Link>
           </Menu.Item>
         </Menu.SubMenu>

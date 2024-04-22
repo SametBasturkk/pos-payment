@@ -12,7 +12,7 @@ const onFinish = async (values) => {
 
     console.log("Login successful:", response.data);
     message.success("Login successful!");
-    localStorage.setItem("authToken", response.headers.authorization);
+    localStorage.setItem("authToken", response.data);
     window.location.href = "/admin/panel";
   } catch (error) {
     console.log("Login failed:", error.response.data);

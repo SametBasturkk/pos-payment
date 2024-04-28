@@ -11,7 +11,10 @@ const MenuList = () => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const token = localStorage.getItem("authToken");
+
+  if(typeof window !== 'undefined'){
+  var token = localStorage.getItem("authToken");
+  }
 
   // Fetch categories and menus when the component mounts
   useEffect(() => {

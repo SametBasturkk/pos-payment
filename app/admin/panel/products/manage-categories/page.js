@@ -6,7 +6,10 @@ import axios from "axios";
 function App() {
   const [categories, setCategories] = useState([]);
   const [form] = Form.useForm();
-  const token = localStorage.getItem("authToken");
+  
+  if(typeof window !== 'undefined'){
+  var token = localStorage.getItem("authToken");
+  }
 
   // Fetch categories when the component mounts
   useEffect(() => {

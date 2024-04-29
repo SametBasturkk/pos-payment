@@ -13,7 +13,7 @@ const onFinish = async (values) => {
       username: values.username,
       password: values.password,
       email: values.email,
-      companyId: values.companyId,
+      companyID: values.companyId,
       phone: values.phone,
     });
 

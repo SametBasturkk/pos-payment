@@ -47,7 +47,9 @@ const AddProduct = () => {
       let productData = {
         name: values.name,
         price: values.price,
-        category: values.category,
+        category: {
+          id: values.category,
+        },
       };
 
       console.log(values);
@@ -132,7 +134,7 @@ const AddProduct = () => {
           <Select placeholder="Select a category">
             {/* Populate the select options with the fetched categories */}
             {categories.map((category) => (
-              <Option key={category.id} value={category.uuid}>
+              <Option key={category.id} value={category.id}>
                 {category.name}
               </Option>
             ))}

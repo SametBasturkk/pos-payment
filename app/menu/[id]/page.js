@@ -1,7 +1,7 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { Card, Spin, Button, message, Col, Row } from 'antd';
-import axios from 'axios';
+"use client";
+import React, { useState, useEffect } from "react";
+import { Card, Spin, Button, message, Col, Row } from "antd";
+import axios from "axios";
 
 const MenuPage = () => {
   const [menuData, setMenuData] = useState(null);
@@ -11,7 +11,7 @@ const MenuPage = () => {
 
   useEffect(() => {
     const url = window.location.href;
-    const uuid = url.substring(url.lastIndexOf('/') + 1);
+    const uuid = url.substring(url.lastIndexOf("/") + 1);
     setUuid(uuid);
 
     const fetchData = async () => {
@@ -20,7 +20,7 @@ const MenuPage = () => {
         setMenuData(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Error fetching menu data:', error);
+        console.error("Error fetching menu data:", error);
         setLoading(false);
       }
     };
@@ -36,7 +36,7 @@ const MenuPage = () => {
       updatedBasket[item.uuid] = { ...item, quantity: 1 };
     }
     setBasket(updatedBasket);
-    message.success('Item added to basket');
+    message.success("Item added to basket");
   };
 
   const removeItemFromBasket = (uuid) => {
@@ -47,7 +47,7 @@ const MenuPage = () => {
 
   const calculateTotal = () => {
     let total = 0;
-    Object.values(basket).forEach(item => {
+    Object.values(basket).forEach((item) => {
       total += item.price * item.quantity;
     });
     return total.toFixed(2);
@@ -55,33 +55,31 @@ const MenuPage = () => {
 
   const confirmOrder = async () => {
     try {
-
-      const orderData = Object.values(basket).map(item => ({
+      const orderData = Object.values(basket).map((item) => ({
         productID: item.uuid,
         price: Number(item.price),
-        quantity: item.quantity
+        quantity: item.quantity,
       }));
 
       const structure = {
         orderDetails: JSON.stringify(orderData),
         menuID: uuid,
-        companyID: menuData.companyID,
+        companyID: menuData.company,
         price: calculateTotal(),
       };
-  
-      await axios.post('http://localhost:3030/order/create', structure, {
+
+      await axios.post("http://localhost:3030/order/create", structure, {
         headers: {
-          Authorization: localStorage.getItem('authToken'),
+          Authorization: localStorage.getItem("authToken"),
         },
       });
       setBasket({});
-      message.success('Order confirmed!');
+      message.success("Order confirmed!");
     } catch (error) {
-      console.error('Error confirming order:', error);
-      message.error('Failed to confirm order. Please try again later.');
+      console.error("Error confirming order:", error);
+      message.error("Failed to confirm order. Please try again later.");
     }
   };
-  
 
   return (
     <div>
@@ -90,18 +88,30 @@ const MenuPage = () => {
           {loading ? (
             <Spin size="large" />
           ) : (
-            <Card title={menuData.menuName} extra={<p>{menuData.menuDescription}</p>}>
-              {Object.keys(menuData.menuItems).map(category => (
+            <Card
+              title={menuData.menuName}
+              extra={<p>{menuData.menuDescription}</p>}
+            >
+              {Object.keys(menuData.menuItems).map((category) => (
                 <div key={category}>
                   <h2>{category}</h2>
                   <ul>
-                    {menuData.menuItems[category].map(item => (
+                    {menuData.menuItems[category].map((item) => (
                       <li key={item.uuid}>
-                        <img src={`http://localhost:3030/product/image/${item.imageUUID}`} alt={item.name} style={{ width: 100, height: 100 }} />
+                        <img
+                          src={`http://localhost:3030/product/image/${item.imageUUID}`}
+                          alt={item.name}
+                          style={{ width: 100, height: 100 }}
+                        />
                         <div>
                           <p>Name: {item.name}</p>
                           <p>Price: {item.price}</p>
-                          <Button type="primary" onClick={() => addToBasket(item)}>Add to Basket</Button>
+                          <Button
+                            type="primary"
+                            onClick={() => addToBasket(item)}
+                          >
+                            Add to Basket
+                          </Button>
                         </div>
                       </li>
                     ))}
@@ -114,16 +124,29 @@ const MenuPage = () => {
         <Col span={6}>
           <Card title="Basket">
             <ul>
-              {Object.values(basket).map(item => (
+              {Object.values(basket).map((item) => (
                 <li key={item.uuid}>
-                  <p>{item.name} - Quantity: {item.quantity}</p>
+                  <p>
+                    {item.name} - Quantity: {item.quantity}
+                  </p>
                   <p>Price: {(item.price * item.quantity).toFixed(2)}</p>
-                  <Button type="danger" onClick={() => removeItemFromBasket(item.uuid)}>Remove</Button>
+                  <Button
+                    type="danger"
+                    onClick={() => removeItemFromBasket(item.uuid)}
+                  >
+                    Remove
+                  </Button>
                 </li>
               ))}
             </ul>
             <p>Total: {calculateTotal()}</p>
-            <Button type="primary" onClick={confirmOrder} disabled={Object.keys(basket).length === 0}>Confirm Order</Button>
+            <Button
+              type="primary"
+              onClick={confirmOrder}
+              disabled={Object.keys(basket).length === 0}
+            >
+              Confirm Order
+            </Button>
           </Card>
         </Col>
       </Row>

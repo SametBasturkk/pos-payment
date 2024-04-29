@@ -11,10 +11,13 @@ const MenuList = () => {
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
-  if(typeof window !== 'undefined'){
-  var token = localStorage.getItem("authToken");
-  }
+  // Fetch token from local storage when needed
+  const getToken = () => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("authToken");
+    }
+    return null;
+  };
 
   // Fetch categories and menus when the component mounts
   useEffect(() => {
@@ -23,47 +26,45 @@ const MenuList = () => {
   }, []);
 
   // Fetch categories from the backend
-  const fetchCategories = () => {
-    axios
-      .get("http://localhost:3030/category/list", {
+  const fetchCategories = async () => {
+    try {
+      const token = getToken();
+      const response = await axios.get("http://localhost:3030/category/list", {
         headers: {
           Authorization: token,
         },
-      })
-      .then((response) => {
-        setCategories(response.data);
-      })
-      .catch((error) => {
-        notification.error({ message: "Failed to fetch categories" });
       });
+      setCategories(response.data);
+    } catch (error) {
+      notification.error({ message: "Failed to fetch categories" });
+    }
   };
 
   // Fetch menus from the backend
-  const fetchMenus = () => {
-    setIsLoading(true);
-    axios
-      .get("http://localhost:3030/menu/get-all", {
+  const fetchMenus = async () => {
+    try {
+      setIsLoading(true);
+      const token = getToken();
+      const response = await axios.get("http://localhost:3030/menu/get-all", {
         headers: {
           Authorization: token,
         },
-      })
-      .then((response) => {
-        // Transform the data to match the Ant Design Table data structure
-        const transformedMenus = response.data.map((menu) => ({
-          id: menu.uuid,
-          name: menu.name,
-          categoryList: menu.categoryList
-            .map((category) => category.name)
-            .join(", "),
-        }));
-        setMenus(transformedMenus);
-      })
-      .catch((error) => {
-        notification.error({ message: "Failed to fetch menus" });
-      })
-      .finally(() => {
-        setIsLoading(false);
       });
+      // Transform the data to match the Ant Design Table data structure
+      const transformedMenus = response.data.map((menu) => ({
+        id: menu.id,
+        name: menu.name,
+        // Extracting categories from the response
+        categoryList: menu.categories
+          .map((category) => category.name)
+          .join(", "),
+      }));
+      setMenus(transformedMenus);
+    } catch (error) {
+      notification.error({ message: "Failed to fetch menus" });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // Define columns for the Ant Design Table
@@ -93,11 +94,26 @@ const MenuList = () => {
   const createMenu = async (values) => {
     try {
       setIsLoading(true);
-      await axios.post("http://localhost:3030/menu/create", values, {
-        headers: {
-          Authorization: token,
-        },
-      });
+      const token = getToken();
+
+      const requestData = {
+        name: values.name,
+        UUID: values.UUID,
+        categories: values.categoryList.map((categoryId) => ({
+          id: categoryId,
+        })),
+      };
+
+      const response = await axios.post(
+        "http://localhost:3030/menu/create",
+        requestData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
       notification.success({ message: "Menu created successfully" });
       fetchMenus(); // Refresh menus list after creating a new menu
     } catch (error) {
@@ -109,16 +125,26 @@ const MenuList = () => {
 
   // Function to remove a menu
   const removeMenu = async (menuId) => {
-    const formData = new FormData();
-    formData.append("uuid", menuId);
     try {
-      await axios.post(`http://localhost:3030/menu/delete`, formData, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      notification.success({ message: "Menu removed successfully" });
-      fetchMenus(); // Refresh menus list after deleting a menu
+      const token = getToken();
+      const formData = new FormData();
+      formData.append("id", menuId);
+      const response = await axios.post(
+        `http://localhost:3030/menu/delete`,
+        formData,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        notification.success({ message: "Menu removed successfully" });
+        fetchMenus(); // Refresh menus list after deleting a menu
+      } else {
+        notification.error({ message: "Error removing menu" });
+      }
     } catch (error) {
       notification.error({ message: "Error removing menu" });
     }
@@ -145,7 +171,7 @@ const MenuList = () => {
         >
           <Select mode="multiple" placeholder="Select categories">
             {categories.map((category) => (
-              <Option key={category.uuid} value={category.uuid}>
+              <Option key={category.id} value={category.id}>
                 {category.name}
               </Option>
             ))}

@@ -6,9 +6,9 @@ import axios from "axios";
 function App() {
   const [categories, setCategories] = useState([]);
   const [form] = Form.useForm();
-  
-  if(typeof window !== 'undefined'){
-  var token = localStorage.getItem("authToken");
+
+  if (typeof window !== "undefined") {
+    var token = localStorage.getItem("authToken");
   }
 
   // Fetch categories when the component mounts
@@ -50,9 +50,9 @@ function App() {
   };
 
   // Handle category deletion
-  const handleDelete = (uuid) => {
+  const handleDelete = (id) => {
     const formData = new FormData();
-    formData.append("uuid", uuid);
+    formData.append("id", id);
     axios
       .post(`http://localhost:3030/category/delete`, formData, {
         headers: {
@@ -60,7 +60,7 @@ function App() {
         },
       })
       .then(() => {
-        setCategories(categories.filter((category) => category.uuid !== uuid));
+        setCategories(categories.filter((category) => category.id !== id));
         message.success("Category deleted successfully");
       })
       .catch((error) => {
@@ -75,7 +75,7 @@ function App() {
       title: "Action",
       key: "action",
       render: (text, record) => (
-        <Button type="danger" onClick={() => handleDelete(record.uuid)}>
+        <Button type="danger" onClick={() => handleDelete(record.id)}>
           Delete
         </Button>
       ),

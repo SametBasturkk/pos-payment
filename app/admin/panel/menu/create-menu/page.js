@@ -53,7 +53,7 @@ const MenuList = () => {
       // Transform the data to match the Ant Design Table data structure
       const transformedMenus = response.data.map((menu) => ({
         id: menu.id,
-        name: menu.name,
+        name: menu.menuName,
         // Extracting categories from the response
         categoryList: menu.categories
           .map((category) => category.name)

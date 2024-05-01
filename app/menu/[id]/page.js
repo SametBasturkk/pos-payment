@@ -7,16 +7,16 @@ const MenuPage = () => {
   const [menuData, setMenuData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [basket, setBasket] = useState({});
-  const [uuid, setUuid] = useState(null);
+  const [id, setid] = useState(null);
 
   useEffect(() => {
     const url = window.location.href;
-    const uuid = url.substring(url.lastIndexOf("/") + 1);
-    setUuid(uuid);
+    const id = url.substring(url.lastIndexOf("/") + 1);
+    setid(id);
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3030/menu/${uuid}`);
+        const response = await axios.get(`http://localhost:3030/menu/${id}`);
         setMenuData(response.data);
         setLoading(false);
       } catch (error) {
@@ -30,18 +30,18 @@ const MenuPage = () => {
 
   const addToBasket = (item) => {
     const updatedBasket = { ...basket };
-    if (updatedBasket[item.uuid]) {
-      updatedBasket[item.uuid].quantity += 1;
+    if (updatedBasket[item.id]) {
+      updatedBasket[item.id].quantity += 1;
     } else {
-      updatedBasket[item.uuid] = { ...item, quantity: 1 };
+      updatedBasket[item.id] = { ...item, quantity: 1 };
     }
     setBasket(updatedBasket);
     message.success("Item added to basket");
   };
 
-  const removeItemFromBasket = (uuid) => {
+  const removeItemFromBasket = (id) => {
     const updatedBasket = { ...basket };
-    delete updatedBasket[uuid];
+    delete updatedBasket[id];
     setBasket(updatedBasket);
   };
 
@@ -56,14 +56,14 @@ const MenuPage = () => {
   const confirmOrder = async () => {
     try {
       const orderData = Object.values(basket).map((item) => ({
-        productID: item.uuid,
+        productID: item.id,
         price: Number(item.price),
         quantity: item.quantity,
       }));
 
       const structure = {
         orderDetails: JSON.stringify(orderData),
-        menuID: uuid,
+        menu: { "id" : id },
         companyID: menuData.company,
         price: calculateTotal(),
       };
@@ -97,7 +97,7 @@ const MenuPage = () => {
                   <h2>{category}</h2>
                   <ul>
                     {menuData.menuItems[category].map((item) => (
-                      <li key={item.uuid}>
+                      <li key={item.id}>
                         <img
                           src={`http://localhost:3030/product/image/${item.imageUUID}`}
                           alt={item.name}
@@ -125,14 +125,14 @@ const MenuPage = () => {
           <Card title="Basket">
             <ul>
               {Object.values(basket).map((item) => (
-                <li key={item.uuid}>
+                <li key={item.id}>
                   <p>
                     {item.name} - Quantity: {item.quantity}
                   </p>
                   <p>Price: {(item.price * item.quantity).toFixed(2)}</p>
                   <Button
                     type="danger"
-                    onClick={() => removeItemFromBasket(item.uuid)}
+                    onClick={() => removeItemFromBasket(item.id)}
                   >
                     Remove
                   </Button>

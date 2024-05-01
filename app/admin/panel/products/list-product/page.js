@@ -40,7 +40,7 @@ function ListProducts() {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Button type="danger" onClick={() => removeProduct(record.uuid)}>
+        <Button type="danger" onClick={() => removeProduct(record.id)}>
           Remove
         </Button>
       ),
@@ -64,7 +64,6 @@ function ListProducts() {
           name: product.name,
           description: "test",
           price: product.price,
-          uuid: product.uuid,
           image: `http://localhost:3030/product/image/${product.imageUUID}`, // Construct the image URL
         }));
 
@@ -78,7 +77,7 @@ function ListProducts() {
   const removeProduct = async (productId) => {
     try {
       const formData = new FormData();
-      formData.append("uuid", productId);
+      formData.append("id", productId);
       await axios.post("http://localhost:3030/product/delete", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -93,7 +92,7 @@ function ListProducts() {
 
       // Update the products list by removing the deleted product
       setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.uuid !== productId)
+        prevProducts.filter((product) => product.id !== productId)
       );
     } catch (error) {
       console.error("Error removing product:", error);

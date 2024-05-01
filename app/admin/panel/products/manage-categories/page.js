@@ -27,7 +27,7 @@ function App() {
         setCategories(response.data);
       })
       .catch((error) => {
-        message.error("Failed to fetch categories");
+        message.error("No categories found");
       });
   };
 

@@ -98,7 +98,6 @@ const MenuList = () => {
 
       const requestData = {
         name: values.name,
-        UUID: values.UUID,
         categories: values.categoryList.map((categoryId) => ({
           id: categoryId,
         })),

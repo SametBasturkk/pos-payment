@@ -1,19 +1,16 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Card, Spin, Button, message, Col, Row } from "antd";
+import { useParams } from "next/navigation";
 import axios from "axios";
 
 const MenuPage = () => {
   const [menuData, setMenuData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [basket, setBasket] = useState({});
-  const [id, setid] = useState(null);
+  const { id } = useParams();
 
   useEffect(() => {
-    const url = window.location.href;
-    const id = url.substring(url.lastIndexOf("/") + 1);
-    setid(id);
-
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3030/menu/${id}`);
@@ -53,6 +50,17 @@ const MenuPage = () => {
     return total.toFixed(2);
   };
 
+  const getToken = () => {
+    if (typeof window !== "undefined") {
+      let token = localStorage.getItem("authToken");
+      if (!token) {
+        token = sessionStorage.getItem("authToken");
+      }
+      return token;
+    }
+    return null;
+  };
+
   const confirmOrder = async () => {
     try {
       const orderData = Object.values(basket).map((item) => ({
@@ -63,14 +71,14 @@ const MenuPage = () => {
 
       const structure = {
         orderDetails: JSON.stringify(orderData),
-        menu: { "id" : id },
+        menu: { id: id },
         companyID: menuData.company,
         price: calculateTotal(),
       };
 
       await axios.post("http://localhost:3030/order/create", structure, {
         headers: {
-          Authorization: localStorage.getItem("authToken"),
+          Authorization: getToken(),
         },
       });
       setBasket({});

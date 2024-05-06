@@ -7,9 +7,16 @@ function App() {
   const [categories, setCategories] = useState([]);
   const [form] = Form.useForm();
 
-  if (typeof window !== "undefined") {
-    var token = localStorage.getItem("authToken");
-  }
+  const getToken = () => {
+    if (typeof window !== "undefined") {
+      let token = localStorage.getItem("authToken");
+      if (!token) {
+        token = sessionStorage.getItem("authToken");
+      }
+      return token;
+    }
+    return null;
+  };
 
   // Fetch categories when the component mounts
   useEffect(() => {
@@ -20,7 +27,7 @@ function App() {
     axios
       .get("http://localhost:3030/category/list", {
         headers: {
-          Authorization: token,
+          Authorization: getToken(),
         },
       })
       .then((response) => {
@@ -36,7 +43,7 @@ function App() {
     axios
       .post("http://localhost:3030/category/create", values, {
         headers: {
-          Authorization: token,
+          Authorization: getToken(),
         },
       })
       .then(() => {

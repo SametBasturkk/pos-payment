@@ -47,12 +47,23 @@ function ListProducts() {
     },
   ];
 
+  const getToken = () => {
+    if (typeof window !== "undefined") {
+      let token = localStorage.getItem("authToken");
+      if (!token) {
+        token = sessionStorage.getItem("authToken");
+      }
+      return token;
+    }
+    return null;
+  };
+
   useEffect(() => {
     // Fetch products from the API
     axios
       .get("http://localhost:3030/product/get-all", {
         headers: {
-          Authorization: `${localStorage.getItem("authToken")}`,
+          Authorization: getToken(),
         },
       })
       .then((response) => {
@@ -81,7 +92,7 @@ function ListProducts() {
       await axios.post("http://localhost:3030/product/delete", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `${localStorage.getItem("authToken")}`,
+          Authorization: getToken(),
         },
       });
 

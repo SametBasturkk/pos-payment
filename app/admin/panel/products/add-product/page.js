@@ -15,6 +15,17 @@ import "../../../../styles/addProduct.css";
 
 const { Option } = Select;
 
+const getToken = () => {
+  if (typeof window !== "undefined") {
+    let token = localStorage.getItem("authToken");
+    if (!token) {
+      token = sessionStorage.getItem("authToken");
+    }
+    return token;
+  }
+  return null;
+};
+
 const AddProduct = () => {
   const [fileList, setFileList] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -27,7 +38,7 @@ const AddProduct = () => {
           "http://localhost:3030/category/list",
           {
             headers: {
-              Authorization: localStorage.getItem("authToken"),
+              Authorization: getToken(),
             },
           }
         );
@@ -78,7 +89,7 @@ const AddProduct = () => {
       await axios.post("http://localhost:3030/product/create", productData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: localStorage.getItem("authToken"),
+          Authorization: getToken(),
         },
       });
       message.success("Product added successfully!");

@@ -2,6 +2,9 @@ import React from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { Layout } from "antd";
 
+
+
+
 const RootLayout = ({ children }) => (
   <html lang="en">
     <body>

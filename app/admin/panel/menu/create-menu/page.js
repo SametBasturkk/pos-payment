@@ -14,7 +14,11 @@ const MenuList = () => {
   // Fetch token from local storage when needed
   const getToken = () => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("authToken");
+      let token = localStorage.getItem("authToken");
+      if (!token) {
+        token = sessionStorage.getItem("authToken");
+      }
+      return token;
     }
     return null;
   };

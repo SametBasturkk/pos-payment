@@ -1,11 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Table, Select } from "antd";
-import "../../../styles/ordersPage.css";
+import { Table } from "antd";
+import "../styles/ordersPage.css";
 import axios from "axios";
 import io from "socket.io-client";
-
-const { Option } = Select;
 
 const socket = io("http://localhost:9092");
 
@@ -37,10 +35,10 @@ const getToken = () => {
 
 function OrdersPage() {
   const [orders, setOrders] = useState([]);
-  const [filterStatus, setFilterStatus] = useState("All");
 
   useEffect(() => {
     fetchOrders();
+
     return () => {
       socket.off("getOrders");
     };
@@ -53,40 +51,6 @@ function OrdersPage() {
 
     return () => clearInterval(interval);
   }, []);
-
-  const handleStatusChange = async (id, orderId, status) => {
-    try {
-      let formData = new FormData();
-      formData.append("status", status);
-      formData.append("id", id);
-      await axios.post("http://localhost:3030/order/changeStatus", formData, {
-        headers: {
-          Authorization: getToken(),
-        },
-      });
-
-      // Update status in the UI
-      const updatedOrders = orders.map((order) =>
-        order.orderId === orderId
-          ? { ...order, status: getStatusLabel(status) }
-          : order
-      );
-      setOrders(updatedOrders);
-    } catch (error) {
-      console.error("Error updating order status:", error);
-    }
-  };
-
-  const getToken = () => {
-    if (typeof window !== "undefined") {
-      let token = localStorage.getItem("authToken");
-      if (!token) {
-        token = sessionStorage.getItem("authToken");
-      }
-      return token;
-    }
-    return null;
-  };
 
   const fetchOrders = async () => {
     try {
@@ -132,7 +96,7 @@ function OrdersPage() {
               price: products[detail.productID]
                 ? products[detail.productID].price
                 : 0,
-              quantity: detail.quantity, // Include quantity here
+              quantity: detail.quantity,
               image: products[detail.productID]
                 ? `http://localhost:3030/product/image/${
                     products[detail.productID].imageUUID
@@ -149,14 +113,15 @@ function OrdersPage() {
               id: order.id,
               product: productNames,
               status: status,
-              createdAt: new Date(order.createdAt), // Convert createdAt to Date object
             };
           });
 
-          // Sort orders by createdAt date in descending order
-          mappedOrders.sort((a, b) => b.createdAt - a.createdAt);
+          // Filter out cancelled orders
+          const nonCancelledOrders = mappedOrders.filter(
+            (order) => order.status !== "Cancelled"
+          );
 
-          setOrders(mappedOrders);
+          setOrders(nonCancelledOrders);
         } catch (error) {
           console.error("Error fetching products:", error);
         }
@@ -165,15 +130,6 @@ function OrdersPage() {
       console.error("Error fetching orders:", error);
     }
   };
-
-  const handleStatusFilterChange = (value) => {
-    setFilterStatus(value);
-  };
-
-  const filteredData =
-    filterStatus !== "All"
-      ? orders.filter((item) => item.status === filterStatus)
-      : orders;
 
   const columns = [
     {
@@ -191,49 +147,40 @@ function OrdersPage() {
       dataIndex: "status",
       key: "status",
     },
-    {
-      title: "Change Status",
-      key: "changeStatus",
-      render: (text, record) => (
-        <Select
-          defaultValue={record.status}
-          style={{ width: 120 }}
-          onChange={(value) =>
-            handleStatusChange(record.id, record.orderId, value)
-          }
-        >
-          <Option value={0}>Pending</Option>
-          <Option value={1}>Shipped</Option>
-          <Option value={2}>Delivered</Option>
-          <Option value={3}>Cancelled</Option>
-        </Select>
-      ),
-    },
   ];
+
+  // Separate orders into "Preparing Orders" and "Ready for Take It" based on status
+  const preparingOrders = orders.filter(
+    (order) => order.status === "Pending" || order.status === "Shipped"
+  );
+  const readyOrders = orders.filter((order) => order.status === "Delivered");
 
   return (
     <div className="orders-page">
       <h2>Orders</h2>
-      <div className="filter-container">
-        <span>Filter by Status:</span>
-        <Select
-          value={filterStatus}
-          style={{ width: 150 }}
-          onChange={handleStatusFilterChange}
-        >
-          <Option value="All">All</Option>
-          <Option value="Pending">Pending</Option>
-          <Option value="Shipped">Shipped</Option>
-          <Option value="Delivered">Delivered</Option>
-          <Option value="Cancelled">Cancelled</Option>
-        </Select>
+      <div className="order-tables-container">
+        {/* Preparing Orders Table */}
+        <div className="orders-section">
+          <h3>Preparing Orders</h3>
+          <Table
+            columns={columns}
+            dataSource={preparingOrders}
+            pagination={false}
+            className="orders-table"
+          />
+        </div>
+
+        {/* Ready for Take It Table */}
+        <div className="orders-section">
+          <h3>Ready for Take It</h3>
+          <Table
+            columns={columns}
+            dataSource={readyOrders}
+            pagination={false}
+            className="orders-table"
+          />
+        </div>
       </div>
-      <Table
-        columns={columns}
-        dataSource={filteredData}
-        pagination={false}
-        className="orders-table"
-      />
     </div>
   );
 }

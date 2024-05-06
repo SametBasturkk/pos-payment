@@ -5,36 +5,69 @@ import {
   DesktopOutlined,
   PieChartOutlined,
   MinusOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
-
 import "./sidebar.css";
 
 export default function Sidebar() {
   // State to store user data
   const [user, setUser] = useState({ name: "Loading...", role: "Loading..." });
 
+  const getToken = () => {
+    if (typeof window !== "undefined") {
+      let token = localStorage.getItem("authToken");
+      if (!token) {
+        token = sessionStorage.getItem("authToken");
+      }
+      return token;
+    }
+    return null;
+  };
+
   useEffect(() => {
-    // Function to fetch user details
     const fetchUserData = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:3030/admin/user-details",
-          {
-            headers: {
-              Authorization: `${localStorage.getItem("authToken")}`,
-            },
-          }
-        );
-        setUser({ name: data.name, role: data.role });
+        const authToken =
+          sessionStorage.getItem("authToken") ||
+          localStorage.getItem("authToken");
+
+        if (authToken) {
+          const { data } = await axios.get(
+            "http://localhost:3030/admin/user-details",
+            {
+              headers: {
+                Authorization: getToken(),
+              },
+            }
+          );
+
+          setUser({ name: data.name, role: data.role });
+        } else {
+          console.error("Authentication token not found.");
+          handleLogout();
+        }
       } catch (error) {
         console.error("Error fetching user data:", error);
+
+        if (error.response && error.response.status === 401) {
+          handleLogout();
+        }
       }
     };
 
     fetchUserData();
   }, []);
+
+  // Logout function
+  const handleLogout = () => {
+    // Clear the authentication token from local storage and/or session storage
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("authToken");
+    // Redirect user to login page
+    window.location.href = "/admin/login";
+  };
 
   return (
     <Layout className="site-layout-background sidebar" style={{ width: 200 }}>
@@ -87,6 +120,9 @@ export default function Sidebar() {
         </Menu.Item>
         <Menu.Item key="5" icon={<DesktopOutlined />}>
           <Link href="/admin/panel/reset-password">Profile Options</Link>
+        </Menu.Item>
+        <Menu.Item key="6" icon={<LogoutOutlined />} onClick={handleLogout}>
+          Logout
         </Menu.Item>
       </Menu>
     </Layout>

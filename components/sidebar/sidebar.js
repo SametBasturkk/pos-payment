@@ -93,7 +93,7 @@ export default function Sidebar() {
         </div>
 
         <Menu.Item key="1" icon={<PieChartOutlined />}>
-          <Link href="/admin/panel">Dashboard</Link>
+          <Link href="/admin/panel/dashboard">Dashboard</Link>
         </Menu.Item>
         <Menu.SubMenu key="3" icon={<DesktopOutlined />} title="Menu">
           <Menu.Item key="3.1" icon={<MinusOutlined />}>

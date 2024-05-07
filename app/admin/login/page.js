@@ -31,9 +31,9 @@ const onFinishLogin = async (values, rememberMe) => {
     message.success("Login successful!");
 
     if (rememberMe) {
-      localStorage.setItem("authToken", response.data);
-    } else {
       sessionStorage.setItem("authToken", response.data);
+    } else {
+      localStorage.setItem("authToken", response.data);
     }
 
     window.location.href = "http://localhost:3000/admin/panel/dashboard";

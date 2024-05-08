@@ -1,48 +1,60 @@
-/* sidebar.css */
-
-.sidebar {
+.site-layout-background {
   background-color: #fff;
 }
 
-.profileInformation {
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  border-bottom: 1px solid #f0f0f0;
+.sidebar {
+  width: 200px;
+  background-color: #001529;
 }
 
-.avatar {
-  width: 70px;
-  height: 70px;
+.profileInformation {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo img {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 
-.profileName {
-  margin-left: 12px;
+.profile {
+  margin-top: 8px;
 }
 
-.name {
+.profileName .name {
+  color: #fff;
   font-weight: bold;
 }
 
+.profile .title {
+  color: #a9b7c6;
+}
+
+.ant-menu {
+  background-color: #001529;
+  border-right: none;
+}
+
 .ant-menu-item {
-  padding-left: 24px;
+  color: #a9b7c6;
 }
 
-.ant-menu-submenu-title {
-  padding-left: 24px;
+.ant-menu-item:hover {
+  color: #1890ff;
 }
 
-.ant-menu-item-group-title {
-  padding-left: 48px;
+.ant-menu-item-selected {
+  background-color: #002140;
+  color: #1890ff;
 }
 
-.sidebar {
-  max-width: 250px;
+.ant-menu-item-selected .anticon {
+  color: #1890ff;
 }
 
-.title {
-  font-size: 12px;
-  font-weight: light;
-  margin-left: 12px;
+.ant-menu-item .anticon {
+  color: #a9b7c6;
 }

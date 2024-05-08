@@ -1,19 +1,72 @@
+/* ordersPage.css */
+
 .orders-page {
   padding: 20px;
+  background-color: #f5f7fa;
+  font-family: "Roboto", sans-serif;
 }
 
-.filter-container {
+.orders-page h2 {
+  font-size: 26px;
   margin-bottom: 20px;
+  color: #37474f;
+}
+
+.order-tables-container {
+  display: flex;
+  gap: 20px;
+}
+
+.orders-section {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.orders-section h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #37474f;
 }
 
 .orders-table {
-  background-color: #fff;
+  border: none;
 }
 
-.ant-table-thead > tr > th {
-  background-color: #f0f2f5;
+.orders-table .ant-table-thead > tr > th {
+  background-color: #eceff1;
+  font-weight: bold;
+  text-align: center;
+  color: #37474f;
 }
 
-.ant-select {
-  margin-left: 10px;
+.orders-table .ant-table-tbody > tr > td {
+  text-align: center;
+  color: #37474f;
+}
+
+.orders-table .ant-table-row {
+  cursor: pointer;
+}
+
+.orders-table .ant-table-row:hover {
+  background-color: #f1f3f5;
+}
+
+.orders-table .ant-table-row:nth-child(even) {
+  background-color: #f5f7fa;
+}
+
+.orders-table .ant-table-row td:nth-child(3):contains("Pending") {
+  color: #ff9800;
+}
+
+.orders-table .ant-table-row td:nth-child(3):contains("Shipped") {
+  color: #03a9f4;
+}
+
+.orders-table .ant-table-row td:nth-child(3):contains("Delivered") {
+  color: #4caf50;
 }

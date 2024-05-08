@@ -7,6 +7,7 @@ import {
   SolutionOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
+import "../../../styles/dashboard.css";
 
 const Dashboard = () => {
   const [overviewData, setOverviewData] = useState(null);

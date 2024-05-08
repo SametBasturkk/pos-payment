@@ -1,0 +1,64 @@
+.menu-page {
+  padding: 20px;
+}
+
+.menu-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.menu-card {
+  margin-bottom: 20px;
+}
+
+.menu-category {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.menu-item img {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+.menu-item-info {
+  flex-grow: 1;
+}
+
+.menu-item-info p {
+  margin: 0;
+}
+
+.basket-card {
+  margin-bottom: 20px;
+}
+
+.basket-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.basket-item:last-child {
+  border-bottom: none;
+}
+
+.basket-total {
+  text-align: right;
+  font-weight: bold;
+}
+
+.confirm-order-button {
+  width: 100%;
+  margin-top: 10px;
+}

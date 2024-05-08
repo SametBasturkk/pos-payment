@@ -1,0 +1,50 @@
+/* Dashboard.css */
+
+.dashboard {
+  padding: 20px;
+  text-align: center; /* Center the overall content */
+}
+
+.dashboard-header {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  width: 300px;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
+  text-align: center; /* Center-align the content within the card */
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #555;
+}
+
+.card p {
+  font-size: 24px; /* Increase the font size of the numbers */
+  color: #333;
+  margin-bottom: 10px; /* Add space between the number and the icon */
+  font-weight: bold; /* Make the number bold */
+}
+
+.card-icon {
+  font-size: 50px; /* Increase the font size of the icon */
+  color: #007bff;
+}

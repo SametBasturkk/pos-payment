@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Form, Input, Checkbox, message } from "antd";
 import axios from "axios";
+import "../../../../styles/manageCategories.css";
 
 function App() {
   const [categories, setCategories] = useState([]);

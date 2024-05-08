@@ -3,6 +3,12 @@ import React, { useState, useEffect } from "react";
 import { Card, Spin, Button, message, Col, Row } from "antd";
 import { useParams } from "next/navigation";
 import axios from "axios";
+import {
+  ShoppingCartOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
+import "../../styles/menu.css";
 
 const MenuPage = () => {
   const [menuData, setMenuData] = useState(null);
@@ -23,7 +29,7 @@ const MenuPage = () => {
     };
 
     fetchData();
-  }, []);
+  }, [id]);
 
   const addToBasket = (item) => {
     const updatedBasket = { ...basket };
@@ -40,6 +46,7 @@ const MenuPage = () => {
     const updatedBasket = { ...basket };
     delete updatedBasket[id];
     setBasket(updatedBasket);
+    message.info("Item removed from basket");
   };
 
   const calculateTotal = () => {
@@ -91,7 +98,7 @@ const MenuPage = () => {
   };
 
   return (
-    <div>
+    <div className="menu-page">
       <Row gutter={16}>
         <Col span={18}>
           {loading ? (
@@ -100,28 +107,30 @@ const MenuPage = () => {
             <Card
               title={menuData.menuName}
               extra={<p>{menuData.menuDescription}</p>}
+              className="menu-card"
             >
               {Object.keys(menuData.menuItems).map((category) => (
-                <div key={category}>
+                <div key={category} className="menu-category">
                   <h2>{category}</h2>
                   <ul>
                     {menuData.menuItems[category].map((item) => (
-                      <li key={item.id}>
+                      <li key={item.id} className="menu-item">
                         <img
                           src={`http://localhost:3030/product/image/${item.imageUUID}`}
                           alt={item.name}
-                          style={{ width: 100, height: 100 }}
+                          className="menu-item-image"
                         />
-                        <div>
+                        <div className="menu-item-info">
                           <p>Name: {item.name}</p>
-                          <p>Price: {item.price}</p>
-                          <Button
-                            type="primary"
-                            onClick={() => addToBasket(item)}
-                          >
-                            Add to Basket
-                          </Button>
+                          <p>Price: {item.price.toFixed(2)}</p>
                         </div>
+                        <Button
+                          type="primary"
+                          icon={<PlusOutlined />}
+                          onClick={() => addToBasket(item)}
+                        >
+                          Add to Basket
+                        </Button>
                       </li>
                     ))}
                   </ul>
@@ -131,16 +140,17 @@ const MenuPage = () => {
           )}
         </Col>
         <Col span={6}>
-          <Card title="Basket">
+          <Card title="Basket" className="basket-card">
             <ul>
               {Object.values(basket).map((item) => (
-                <li key={item.id}>
+                <li key={item.id} className="basket-item">
                   <p>
                     {item.name} - Quantity: {item.quantity}
                   </p>
                   <p>Price: {(item.price * item.quantity).toFixed(2)}</p>
                   <Button
                     type="danger"
+                    icon={<DeleteOutlined />}
                     onClick={() => removeItemFromBasket(item.id)}
                   >
                     Remove
@@ -148,11 +158,13 @@ const MenuPage = () => {
                 </li>
               ))}
             </ul>
-            <p>Total: {calculateTotal()}</p>
+            <p className="basket-total">Total: {calculateTotal()}</p>
             <Button
               type="primary"
+              className="confirm-order-button"
               onClick={confirmOrder}
               disabled={Object.keys(basket).length === 0}
+              icon={<ShoppingCartOutlined />}
             >
               Confirm Order
             </Button>

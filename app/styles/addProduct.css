@@ -8,3 +8,45 @@
   background-color: #f9f9f9;
   width: 500px;
 }
+
+.add-product-page {
+  padding: 20px;
+}
+
+.add-product-form {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.add-product-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.add-product-form .ant-form-item label {
+  font-weight: bold;
+}
+
+.add-product-form .ant-form-item .ant-input {
+  width: 100%;
+}
+
+.add-product-form .ant-input-number {
+  width: 100%;
+}
+
+.add-product-form .ant-select {
+  width: 100%;
+}
+
+.add-product-form .ant-upload {
+  width: 100%;
+}
+
+.add-product-form .ant-upload .ant-btn {
+  display: block;
+  width: 100%;
+}
+
+.add-product-form .ant-form-item:last-child {
+  text-align: center;
+}

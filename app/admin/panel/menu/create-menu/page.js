@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Form, Input, Select, notification } from "antd";
 import axios from "axios";
+import "../../../../styles/menuManagement.css";
 
 const { Option } = Select;
 

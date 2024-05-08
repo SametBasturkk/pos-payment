@@ -1,10 +1,26 @@
-#add_product_form {
-  margin-top: 20px;
-  margin-left: 20px;
-  margin-right: 20px;
+.list-products-page {
   padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
-  width: 500px;
+}
+
+.list-products-page h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.product-table .ant-table-thead > tr > th {
+  font-weight: bold;
+}
+
+.product-table .ant-table-tbody > tr > td {
+  padding: 8px 16px;
+}
+
+.product-table img {
+  display: block;
+}
+
+.product-table .ant-btn-danger {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+  color: #fff;
 }

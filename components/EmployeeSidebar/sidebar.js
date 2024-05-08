@@ -35,7 +35,7 @@ export default function Sidebar() {
 
         if (authToken) {
           const { data } = await axios.get(
-            "http://localhost:3030/admin/user-details",
+            "http://localhost:3030/panel/user-details",
             {
               headers: {
                 Authorization: getToken(),
@@ -93,33 +93,13 @@ export default function Sidebar() {
         </div>
 
         <Menu.Item key="1" icon={<PieChartOutlined />}>
-          <Link href="/admin/panel/dashboard">Dashboard</Link>
+          <Link href="/employee/panel/dashboard">Dashboard</Link>
         </Menu.Item>
-        <Menu.SubMenu key="3" icon={<DesktopOutlined />} title="Menu">
-          <Menu.Item key="3.1" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/menu/create-menu">Manage Menu</Link>
-          </Menu.Item>
-        </Menu.SubMenu>
-        <Menu.SubMenu key="2" icon={<DesktopOutlined />} title="Products">
-          <Menu.Item key="2.1" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/products/list-product">
-              Manage Products
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="2.2" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/products/add-product">Add Product</Link>
-          </Menu.Item>
-          <Menu.Item key="2.3" icon={<MinusOutlined />}>
-            <Link href="/admin/panel/products/manage-categories">
-              Manage Categories
-            </Link>
-          </Menu.Item>
-        </Menu.SubMenu>
         <Menu.Item key="4" icon={<DesktopOutlined />}>
-          <Link href="/admin/panel/orders">Orders</Link>
+          <Link href="/employee/panel/orders">Orders</Link>
         </Menu.Item>
         <Menu.Item key="5" icon={<DesktopOutlined />}>
-          <Link href="/admin/panel/reset-password">Profile Options</Link>
+          <Link href="/employee/panel/reset-password">Profile Options</Link>
         </Menu.Item>
         <Menu.Item key="6" icon={<LogoutOutlined />} onClick={handleLogout}>
           Logout

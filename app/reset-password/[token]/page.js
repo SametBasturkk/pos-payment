@@ -19,7 +19,7 @@ const ResetPassword = () => {
       formData.append("token", token);
       formData.append("password", values.newPassword);
 
-      await axios.post("http://localhost:3030/admin/forgot-password", formData);
+      await axios.post("http://localhost:3030/panel/forgot-password", formData);
 
       message.success(
         "Password reset successful! You can now log in with your new password."

@@ -36,7 +36,7 @@ const onFinishLogin = async (values, rememberMe) => {
       localStorage.setItem("authToken", response.data);
     }
 
-    window.location.href = "http://localhost:3000/admin/panel/dashboard";
+    window.location.href = "http://localhost:3000/employee/panel/dashboard";
   } catch (error) {
     console.error("Login failed:", error.response?.data || "Network error");
     message.error(
@@ -61,7 +61,7 @@ const onFinishRegister = async (values) => {
     });
     console.log("Registration successful:", response.data);
     message.success("Registration successful!");
-    window.location.href = "/admin/login";
+    window.location.href = "/employee/login";
   } catch (error) {
     console.error(
       "Registration failed:",

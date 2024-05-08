@@ -65,6 +65,7 @@ const MenuPage = () => {
     try {
       const orderData = Object.values(basket).map((item) => ({
         productID: item.id,
+        productName: item.name,
         price: Number(item.price),
         quantity: item.quantity,
       }));

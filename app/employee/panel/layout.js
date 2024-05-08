@@ -1,6 +1,6 @@
 import React from "react";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import Sidebar from "../../../components/Adminsidebar/sidebar";
+import Sidebar from "../../../components/EmployeeSidebar/sidebar";
 import { Layout } from "antd";
 import "../../styles/adminPage.css";
 

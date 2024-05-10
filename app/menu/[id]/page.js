@@ -15,12 +15,14 @@ const MenuPage = () => {
   const [loading, setLoading] = useState(true);
   const [basket, setBasket] = useState({});
   const { id } = useParams();
+  const [activeCategory, setActiveCategory] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3030/menu/${id}`);
         setMenuData(response.data);
+        setActiveCategory(Object.keys(response.data.menuItems)[0]);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching menu data:", error);
@@ -109,11 +111,11 @@ const MenuPage = () => {
               extra={<p>{menuData.menuDescription}</p>}
               className="menu-card"
             >
-              {Object.keys(menuData.menuItems).map((category) => (
-                <div key={category} className="menu-category">
-                  <h2>{category}</h2>
+              {menuData.menuItems && activeCategory && (
+                <div className="menu-category">
+                  <h2>{activeCategory}</h2>
                   <ul>
-                    {menuData.menuItems[category].map((item) => (
+                    {menuData.menuItems[activeCategory].map((item) => (
                       <li key={item.id} className="menu-item">
                         <img
                           src={`http://localhost:3030/product/image/${item.imageUUID}`}
@@ -135,7 +137,7 @@ const MenuPage = () => {
                     ))}
                   </ul>
                 </div>
-              ))}
+              )}
             </Card>
           )}
         </Col>
@@ -171,6 +173,20 @@ const MenuPage = () => {
           </Card>
         </Col>
       </Row>
+
+      {/* Bottom Navigation */}
+      <div className="bottom-navigation">
+        {menuData &&
+          Object.keys(menuData.menuItems).map((category) => (
+            <Button
+              key={category}
+              className="category-button"
+              onClick={() => setActiveCategory(category)}
+            >
+              {category}
+            </Button>
+          ))}
+      </div>
     </div>
   );
 };

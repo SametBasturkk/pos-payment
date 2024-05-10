@@ -1,10 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Table, Select } from "antd";
+import { Table, Button, Select } from "antd";
+import {
+  CheckOutlined,
+  CloseOutlined,
+  ClockCircleOutlined,
+  TruckOutlined,
+} from "@ant-design/icons";
 import io from "socket.io-client";
 import "../../../styles/ordersPage.css";
 
-const { Option } = Select;
 const socket = io("http://localhost:9092");
 
 const getStatusLabel = (status) => {
@@ -118,6 +123,52 @@ const OrdersPage = () => {
       ? orders
       : orders.filter((order) => order.status === filterStatus);
 
+  // Create buttons for each status
+  const renderStatusButtons = (orderId) => {
+    const buttons = [
+      {
+        icon: <ClockCircleOutlined />,
+        label: "Pending",
+        color: "#1890ff", // Blue
+        status: 0,
+      },
+      {
+        icon: <TruckOutlined />,
+        label: "Shipped",
+        color: "#faad14", // Orange
+        status: 1,
+      },
+      {
+        icon: <CheckOutlined />,
+        label: "Delivered",
+        color: "#52c41a", // Green
+        status: 2,
+      },
+      {
+        icon: <CloseOutlined />,
+        label: "Cancelled",
+        color: "#ff4d4f", // Red
+        status: 3,
+      },
+    ];
+
+    return buttons.map((button) => (
+      <Button
+        key={button.status}
+        type="primary"
+        icon={button.icon}
+        style={{
+          backgroundColor: button.color,
+          borderColor: button.color,
+          marginRight: "8px",
+        }}
+        onClick={() => handleStatusChange(orderId, button.status)}
+      >
+        {button.label}
+      </Button>
+    ));
+  };
+
   const columns = [
     {
       title: "Order ID",
@@ -138,18 +189,9 @@ const OrdersPage = () => {
       title: "Change Status",
       key: "changeStatus",
       render: (text, record) => (
-        <Select
-          defaultValue={record.status}
-          onChange={(value) =>
-            handleStatusChange(record.orderId, parseInt(value))
-          }
-          style={{ width: 120 }}
-        >
-          <Option value="0">Pending</Option>
-          <Option value="1">Shipped</Option>
-          <Option value="2">Delivered</Option>
-          <Option value="3">Cancelled</Option>
-        </Select>
+        <div style={{ display: "flex" }}>
+          {renderStatusButtons(record.orderId)}
+        </div>
       ),
     },
   ];

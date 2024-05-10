@@ -2,17 +2,19 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
-  DesktopOutlined,
   PieChartOutlined,
-  MinusOutlined,
+  MenuOutlined,
+  ShoppingOutlined,
+  ShoppingCartOutlined,
+  SettingOutlined,
   LogoutOutlined,
+  MinusOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
 import axios from "axios";
 import "./sidebar.css";
 
 export default function Sidebar() {
-  // State to store user data
   const [user, setUser] = useState({ name: "Loading...", role: "Loading..." });
 
   const getToken = () => {
@@ -29,20 +31,14 @@ export default function Sidebar() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const authToken =
-          sessionStorage.getItem("authToken") ||
-          localStorage.getItem("authToken");
-
+        const authToken = getToken();
         if (authToken) {
           const { data } = await axios.get(
             "http://localhost:3030/panel/user-details",
             {
-              headers: {
-                Authorization: getToken(),
-              },
+              headers: { Authorization: authToken },
             }
           );
-
           setUser({ name: data.name, role: data.role });
         } else {
           console.error("Authentication token not found.");
@@ -50,7 +46,6 @@ export default function Sidebar() {
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
-
         if (error.response && error.response.status === 401) {
           handleLogout();
         }
@@ -60,12 +55,9 @@ export default function Sidebar() {
     fetchUserData();
   }, []);
 
-  // Logout function
   const handleLogout = () => {
-    // Clear the authentication token from local storage and/or session storage
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
-    // Redirect user to login page
     window.location.href = "/admin/login";
   };
 
@@ -95,12 +87,12 @@ export default function Sidebar() {
         <Menu.Item key="1" icon={<PieChartOutlined />}>
           <Link href="/admin/panel/dashboard">Dashboard</Link>
         </Menu.Item>
-        <Menu.SubMenu key="3" icon={<DesktopOutlined />} title="Menu">
+        <Menu.SubMenu key="3" icon={<MenuOutlined />} title="Menu">
           <Menu.Item key="3.1" icon={<MinusOutlined />}>
             <Link href="/admin/panel/menu/create-menu">Manage Menu</Link>
           </Menu.Item>
         </Menu.SubMenu>
-        <Menu.SubMenu key="2" icon={<DesktopOutlined />} title="Products">
+        <Menu.SubMenu key="2" icon={<ShoppingOutlined />} title="Products">
           <Menu.Item key="2.1" icon={<MinusOutlined />}>
             <Link href="/admin/panel/products/list-product">
               Manage Products
@@ -115,10 +107,10 @@ export default function Sidebar() {
             </Link>
           </Menu.Item>
         </Menu.SubMenu>
-        <Menu.Item key="4" icon={<DesktopOutlined />}>
+        <Menu.Item key="4" icon={<ShoppingCartOutlined />}>
           <Link href="/admin/panel/orders">Orders</Link>
         </Menu.Item>
-        <Menu.Item key="5" icon={<DesktopOutlined />}>
+        <Menu.Item key="5" icon={<SettingOutlined />}>
           <Link href="/admin/panel/reset-password">Profile Options</Link>
         </Menu.Item>
         <Menu.Item key="6" icon={<LogoutOutlined />} onClick={handleLogout}>

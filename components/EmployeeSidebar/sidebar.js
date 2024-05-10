@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
 import {
-  DesktopOutlined,
   PieChartOutlined,
-  MinusOutlined,
+  ShoppingCartOutlined,
+  SettingOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
 import Link from "next/link";
@@ -62,11 +62,9 @@ export default function Sidebar() {
 
   // Logout function
   const handleLogout = () => {
-    // Clear the authentication token from local storage and/or session storage
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
-    // Redirect user to login page
-    window.location.href = "/admin/login";
+    window.location.href = "/employee/login";
   };
 
   return (
@@ -95,10 +93,10 @@ export default function Sidebar() {
         <Menu.Item key="1" icon={<PieChartOutlined />}>
           <Link href="/employee/panel/dashboard">Dashboard</Link>
         </Menu.Item>
-        <Menu.Item key="4" icon={<DesktopOutlined />}>
+        <Menu.Item key="4" icon={<ShoppingCartOutlined />}>
           <Link href="/employee/panel/orders">Orders</Link>
         </Menu.Item>
-        <Menu.Item key="5" icon={<DesktopOutlined />}>
+        <Menu.Item key="5" icon={<SettingOutlined />}>
           <Link href="/employee/panel/reset-password">Profile Options</Link>
         </Menu.Item>
         <Menu.Item key="6" icon={<LogoutOutlined />} onClick={handleLogout}>

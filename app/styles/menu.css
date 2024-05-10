@@ -62,3 +62,81 @@
   width: 100%;
   margin-top: 10px;
 }
+
+/* Styles for the menu page */
+.menu-page {
+  padding: 20px;
+}
+
+/* Styles for the card in the menu page */
+.menu-card {
+  margin-bottom: 20px;
+}
+
+/* Styles for the menu items */
+.menu-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Styles for the menu item images */
+.menu-item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+/* Styles for the menu item info */
+.menu-item-info {
+  flex-grow: 1;
+}
+
+/* Styles for the buttons */
+.basket-card {
+  margin-bottom: 20px;
+}
+
+/* Styling for the basket items */
+.basket-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+/* Basket total and confirm order button */
+.basket-total {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.confirm-order-button {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Bottom Navigation styles */
+.bottom-navigation {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+/* Category button styles */
+.category-button {
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #1890ff;
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.category-button:hover {
+  background-color: #40a9ff;
+}

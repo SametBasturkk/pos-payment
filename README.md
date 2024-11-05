@@ -1,36 +1,189 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Restaurant Menu Management System
 
-## Getting Started
+This document outlines the features, technologies, architecture, and usage of a web-based restaurant menu management system built with Spring Boot.
 
-First, run the development server:
+### Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Architecture](#architecture)
+- [Project Structure](#project-structure)
+- [Setup and Installation](#setup-and-installation)
+- [API Endpoints](#api-endpoints)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+
+### Features
+
+- **Menu Management:**
+    - Create, read, update, and delete categories, products, and menu items.
+- **Order Processing:**
+    - Place, view, and manage customer orders.
+- **Authentication and Authorization:**
+    - JWT-based token security.
+- **Real-Time Updates:**
+    - WebSocket support for live order updates.
+- **Caching:**
+    - Uses Redis for efficient data retrieval.
+- **Logging:**
+    - Integrated with Logstash for error and event logging.
+
+### Technologies Used
+
+- **Backend:** Java, Spring Boot
+- **Security:** JWT for token-based authentication
+- **Caching:** Redis
+- **Database:** (Specify database type here, e.g., PostgreSQL or MySQL)
+- **Logging and Monitoring:** ELK Stack (Elasticsearch, Logstash, and Kibana)
+- **Real-Time Communication:** WebSocket
+
+### Architecture
+
+The system follows a standard Spring Boot REST API architecture with the following components:
+
+- **Controllers:** Expose REST API endpoints.
+- **Services:** Contain business logic.
+- **Repositories:** Handle data access and persistence.
+- **Utilities:** Provide auxiliary functions like token validation and data conversion.
+
+### Project Structure
+
+```
+src/
+├── main/
+│   ├── java/com/pospayment/pospayment/
+│   │   ├── configuration/       # Configurations for security, Redis, etc.
+│   │   ├── controller/          # REST controllers (Category, Company, Menu, Order, etc.)
+│   │   ├── dto/                 # Data Transfer Objects
+│   │   ├── exception/           # Custom exceptions
+│   │   ├── model/               # Entity models
+│   │   ├── service/             # Service layer
+│   │   ├── util/                # Utility classes (JWT, data converters)
+│   │   └── PospaymentApplication.java  # Main application entry point
+└── resources/
+    ├── application.properties   # Application configuration
+    └── static/                  # Static files (if any)
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Setup and Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+1. **Clone the Repository:**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+   ```bash
+   git clone <repository-url>
+   cd restaurant-menu-management
+   ```
 
-## Learn More
+2. **Configure Database:** Update `application.properties` with your database credentials:
 
-To learn more about Next.js, take a look at the following resources:
+   ```properties
+   spring.datasource.url=jdbc:postgresql://localhost:5432/your_database
+   spring.datasource.username=your_username
+   spring.datasource.password=your_password
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Install Redis:** If Redis is not installed, you can install it using:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+   ```bash
+   sudo apt update
+   sudo apt install redis-server
+   ```
 
-## Deploy on Vercel
+4. **Run the Application:**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   ./mvnw spring-boot:run
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+5. **Access the Application:** The application should now be running at `http://localhost:8080`.
+
+### API Endpoints
+
+Here's an overview of available API endpoints:
+
+**Category Management**
+
+- **Create Category**
+
+   ```
+   POST /category/create
+   Headers: Authorization: Bearer <token>
+   Body: { "name": "Beverages" }
+   Description: Adds a new category.
+   ```
+
+- **List Categories**
+
+   ```
+   GET /category/list
+   Description: Returns all categories.
+   ```
+
+**Company Management**
+
+- **Create Company**
+
+   ```
+   POST /company/create
+   Headers: Authorization: Bearer <token>
+   Body: { "name": "Restaurant A", "location": "City Center" }
+   Description: Adds a new company.
+   ```
+
+- **List Companies**
+
+   ```
+   GET /company/list
+   Description: Returns all companies.
+   ```
+
+**Menu Management**
+
+- **Create Menu Item**
+
+   ```
+   POST /menu/create
+   Headers: Authorization: Bearer <token>
+   Body: { "name": "Pizza", "category": "Main Dish", "price": 12.99 }
+   Description: Adds a new menu item.
+   ```
+
+- **List Menu Items**
+
+   ```
+   GET /menu/list
+   Description: Retrieves all menu items.
+   ```
+
+**Order Management**
+
+- **Create Order**
+
+   ```
+   POST /order/create
+   Headers: Authorization: Bearer <token>
+   Body: { "customerId": 1, "items": [{ "productId": 2, "quantity": 1 }] }
+   Description: Places a new order.
+   ```
+
+- **Get Orders**
+
+   ```
+   GET /order/list
+   Description: Retrieves all orders.
+   ```
+
+### Usage
+
+- **Creating Categories and Menu Items:** Use the `POST /category/create` and `POST /menu/create` endpoints to populate your menu with categories and items.
+- **Managing Orders:** Place and track orders through `POST /order/create` and `GET /order/list` for efficient order management.
+- **Authentication:** All API requests require an Authorization token, which can be obtained by logging in (if there’s an authentication endpoint).
+
+### Contributing
+
+Contributions are welcome! Please refer to the CONTRIBUTING.md file for guidelines.
+
+### License
+
+This project is licensed under the (Specify license type here, e.g., MIT License). See the LICENSE file for details. 
